@@ -150,4 +150,5 @@ bool voyageur::recherchercin( int cin)
         return query.exec();
 
     }
+//juste njareb fel git
 
