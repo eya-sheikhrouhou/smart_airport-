@@ -420,6 +420,19 @@ max-height: 13px;
         </property>
        </item>
       </widget>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>1040</x>
+         <y>360</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>pdf</string>
+       </property>
+      </widget>
       <zorder>label_5</zorder>
       <zorder>label_6</zorder>
       <zorder>lineEdit_nom</zorder>
@@ -436,6 +449,7 @@ max-height: 13px;
       <zorder>pushButton_supprimer</zorder>
       <zorder>table_voyageur</zorder>
       <zorder>comboBox_tri</zorder>
+      <zorder>pushButton</zorder>
      </widget>
      <widget class="QPushButton" name="pushButton_modifier">
       <property name="geometry">
@@ -624,116 +638,18 @@ max-height: 13px;
     </widget>
     <widget class="QWidget" name="tab">
      <attribute name="title">
-      <string>afficher </string>
+      <string>statistique</string>
      </attribute>
-     <widget class="QLabel" name="label_2">
+     <widget class="QFrame" name="horizontalFrame">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>40</y>
-        <width>56</width>
-        <height>16</height>
+        <x>200</x>
+        <y>20</y>
+        <width>611</width>
+        <height>401</height>
        </rect>
       </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_8">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>110</y>
-        <width>91</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>trié par</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_3">
-     <attribute name="title">
-      <string>Page</string>
-     </attribute>
-     <widget class="QGroupBox" name="groupBox">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>130</y>
-        <width>221</width>
-        <height>191</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">
-
-QPushButton {
-color: white;
-background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #88d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);
-border-width: 1px;
-border-color: #339;
-border-style: solid;
-border-radius: 7;
-padding: 3px;
-font-size: 10px;
-padding-left: 5px;
-padding-right: 5px;
-min-width: 50px;
-max-width: 50px;
-min-height: 13px;
-max-height: 13px;
-}
-
-</string>
-      </property>
-      <property name="title">
-       <string>supprimer  un voyageur</string>
-      </property>
-      <widget class="QLabel" name="label_3">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>40</y>
-         <width>81</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font: 8pt &quot;Rockwell&quot;;
-font: 8pt &quot;MS Shell Dlg 2&quot;;
-padding: 1px;
-    border-style: solid;
-    border: 1px solid #1e1e1e;
-    border-radius: 5;</string>
-       </property>
-       <property name="text">
-        <string>id_voyageur</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_soc">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>40</y>
-         <width>113</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout"/>
      </widget>
     </widget>
    </widget>

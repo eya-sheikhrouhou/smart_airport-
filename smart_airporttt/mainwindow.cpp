@@ -8,6 +8,13 @@
 #include<QSqlQueryModel>
 #include"connection.h"
 #include<QDebug>
+//teb3in pdf
+#include <QtCore>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPdfWriter>
+#include <QPainter>
+// ******************
 
 
 
@@ -21,6 +28,45 @@ MainWindow::MainWindow(QWidget *parent)
     QPixmap pix("C:/Users/eya sheikhrouhou/Documents/smart_airport/Screenshot 2022-09-20 202443.png");
   ui->label_logo->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
   ui->lineEdit_cin->setValidator(new QIntValidator(0,99999999,this));
+
+
+  //statistiques***********************************
+
+  int cin=0;
+        QString nom="";
+        QString prenom="";
+        QString adresse="";
+        QDate date_naissance;
+
+
+      voyageur m(cin,nom,prenom,adresse,date_naissance);
+
+
+
+            QPieSeries *series = new QPieSeries();
+            series->setHoleSize(0.35);
+
+            QPieSlice *slice = series->append("Siliana", m.statistique("Siliana"));
+
+            slice->setExploded();
+            slice->setLabelVisible();
+            series->append("Sfax", m.statistique("Sfax"));
+            series->append("Tunis", m.statistique("Tunis"));
+            series->append("Sousse", m.statistique("Sousse"));
+
+            QChart *chart = new QChart();
+            chart->addSeries(series);
+            chart->setAnimationOptions(QChart::SeriesAnimations);
+            chart->setTitle("statistiques par Adresse");
+            chart->setTheme(QChart::ChartThemeBlueIcy);
+
+
+            QChartView *chartview = new QChartView(chart);
+            chartview->setRenderHint(QPainter::Antialiasing);
+
+            chartview->setParent(ui->horizontalFrame);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -41,17 +87,7 @@ void MainWindow::on_ajouter_clicked()
      QString adresse=ui->lineEdit_adresse->text();
     QDate date_naissance=ui->dateEdit->date();
 
-    /*  v.setcin(ui->lineEdit_cin->text().toUInt());
-        v.setnom(ui->lineEdit_nom->text());
-        v.setprenom(ui->lineEdit_prenom->text());
-        v.setadresse(ui->lineEdit_adresse->text());
-        v.setdate(ui->dateEdit->date());
 
-        //QString nom=v.getnom();
-    //    QMessageBox::warning(this,"vous avez enregistrer ","  nom:"+ nom +"  prenom:"
-                     //        +v.getprenom()+"  adresse:"+v.getadresse()+"  date:"+v.getdate().toString("yyyy/dd/MM"));
-
-          */
      voyageur v(cin,nom,prenom,adresse,date_naissance);
 
         bool test=v.ajouter();
@@ -80,6 +116,18 @@ void MainWindow::on_ajouter_clicked()
 }
 
 
+
+/*  v.setcin(ui->lineEdit_cin->text().toUInt());
+    v.setnom(ui->lineEdit_nom->text());
+    v.setprenom(ui->lineEdit_prenom->text());
+    v.setadresse(ui->lineEdit_adresse->text());
+    v.setdate(ui->dateEdit->date());
+
+    //QString nom=v.getnom();
+//    QMessageBox::warning(this,"vous avez enregistrer ","  nom:"+ nom +"  prenom:"
+                 //        +v.getprenom()+"  adresse:"+v.getadresse()+"  date:"+v.getdate().toString("yyyy/dd/MM"));
+
+      */
 void MainWindow::on_pushButton_supprimer_clicked()
 {
     int cin=ui->lineEdit_cin->text().toInt();
@@ -203,14 +251,14 @@ void MainWindow::on_pushButton_chercher_clicked()
 
 void MainWindow::on_table_voyageur_activated(const QModelIndex &index)
 {
-    QString val=ui->table_voyageur->model()->data(index).toString();
+    QString val=ui->table_voyageur->model()->index(index.row(),index.column()).data().toString();
 
- Connection conn;
+ /*Connection conn;
    if(!conn.createconnect())
  {
  qDebug()<<"failed to open the database";
      return;
- }
+ }*/
 
     QSqlQuery query;
     query.prepare("select * from voyageurs where cin='"+val+"' " );   // or  nom='"+val+"'   or prenom='"+val+"'    or adresse='"+val+"'
@@ -225,7 +273,7 @@ if(query.exec())
 
     }
 
-conn.closeConnection();
+//conn.closeConnection();
 }
 else
     QMessageBox::critical(this,tr("error::"),query.lastError().text());
@@ -249,3 +297,23 @@ else
 
 
 
+int MainWindow::on_pushButton_clicked()
+{
+    QPrinter printer;
+          printer.setOutputFormat(QPrinter::PdfFormat);
+          printer.setOutputFileName("voyageurs.pdf");
+          QPainter painter;
+          if (! painter.begin(&printer)) { // failed to open file
+              qWarning("failed to open file, is it writable?");
+              return 1;
+          }
+          painter.drawText(40, 10, "Liste des voyageurs");
+          painter.drawText(40, 30, "voy 1");
+          painter.drawText(40, 50, "voy 2");
+          if (! printer.newPage()) {
+              qWarning("failed in flushing page to disk, disk full?");
+              return 1;
+          }
+          painter.drawText(10, 40, "Finish Test");
+          painter.end();
+}

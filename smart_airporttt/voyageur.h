@@ -31,7 +31,10 @@ QSqlQueryModel * trie_NOM();
 QSqlQueryModel * trie_CIN();
 //QSqlQueryModel * chercher(QString nom);
 QSqlQueryModel* recherchernom(QString a);
+
 bool recherchercin(int cin);
+
+int statistique(QString adresse);
 
     voyageur();
 private:

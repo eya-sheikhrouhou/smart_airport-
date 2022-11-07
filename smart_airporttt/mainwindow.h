@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include<voyageur.h>
+#include<QtCharts>
+#include<QChartView>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,6 +33,8 @@ private slots:
     void on_pushButton_chercher_clicked();
 
     void on_table_voyageur_activated(const QModelIndex &index);
+
+    int on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

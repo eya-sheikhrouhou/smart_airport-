@@ -2,6 +2,9 @@
 #include<QSqlQuery>
 #include<QtDebug>
 #include<QObject>
+#include<QMessageBox>
+
+
 
 
 voyageur::voyageur()
@@ -39,10 +42,12 @@ bool voyageur::ajouter()
 
   QSqlQuery query;
 
-  QString cin_string=QString::number(cin);             //c quoi number heddhy mafhemthechh
-
+  QString cin_string=QString::number(cin);      //transformer le cin de int en string
+        //Prepares the SQL query query for execution. Returns true if the query is prepared successfully; otherwise returns false.
         query.prepare("INSERT INTO VOYAGEURS (cin,nom,prenom,adresse,date_naissance) "
                       "VALUES (:cin, :nom, :prenom ,:adresse,:date_naissance)");
+
+       //Set the placeholder to be bound to value val in the prepared statement.
 
         query.bindValue(":cin", cin_string);
         query.bindValue(":nom",nom);
@@ -53,18 +58,32 @@ bool voyageur::ajouter()
 
 
 }
+
+
 bool voyageur::supprimer(int cin)
 {
 
 
-   QSqlQuery query;
-   QString res=QString::number(cin);
-   query.prepare("Delete from voyageurs where cin=:cin");
-   query.bindValue(":cin",res);
-   return query.exec();
+    QSqlQuery query;
+        QString cin_string=QString::number(cin);
+        if(query.exec("select * from voyageurs where cin='"+cin_string+"'"))
+        { int count=0;
+            while(query.next())
+                count++;
+            if (count!=0)
+           {
+              query.prepare(" Delete from voyageurs where cin=:cin");
+              query.bindValue(":cin", cin_string);
+               return query.exec();
+            }
+
+ else    return false;
+
+      }
 
 
 }
+
 
 QSqlQueryModel * voyageur::afficher()
 {
@@ -76,11 +95,10 @@ QSqlQueryModel * voyageur::afficher()
     model->setHeaderData(1,Qt::Horizontal,QObject::tr("nom"));
     model->setHeaderData(2,Qt::Horizontal,QObject::tr("prenom"));
      model->setHeaderData(3,Qt::Horizontal,QObject::tr("adresse"));
-     model->setHeaderData(3,Qt::Horizontal,QObject::tr("date_naissance"));
+     model->setHeaderData(4,Qt::Horizontal,QObject::tr("date_naissance"));
 
      return model;
 }
-
 
 bool voyageur::modifier(int cin,QString adresse,QString nom,QString prenom,QDate date_naissance)
 {
@@ -94,6 +112,34 @@ bool voyageur::modifier(int cin,QString adresse,QString nom,QString prenom,QDate
     return    query.exec();
 }
 
+/*
+bool voyageur::modifier(int cin,QString adresse,QString nom,QString prenom,QDate date_naissance)
+{
+    QSqlQuery query;
+    QString cin_string=QString::number(cin);
+
+    if(query.exec("select * from voyageurs where cin='"+cin_string+"'"))
+    { int count=0;
+        while(query.next())
+            count++;
+        if (count!=0)
+       {
+            query.bindValue(":cin",cin);
+          query.bindValue(":nom", nom);
+           query.bindValue(":prenom", prenom);
+            query.bindValue(":adresse",adresse);
+             query.bindValue(":date_naissance", date_naissance);
+            // return query.exec();
+          }
+          else
+        {
+              QMessageBox::critical(nullptr, QObject::tr(" not OK"),
+                                            QObject::tr("l'identifiant n'existe pas .\n"
+                                                        "click cancel to exit."),QMessageBox::Cancel);
+        }
+          }
+    return query.exec();
+*/
 
 QSqlQueryModel * voyageur::trie_NOM()
 {
@@ -151,4 +197,28 @@ bool voyageur::recherchercin( int cin)
 
     }
 //juste njareb fel git
+
+
+
+
+int voyageur::statistique(QString adresse)
+{
+    QSqlQuery query;
+    query.prepare("select count(*) from voyageurs where adresse=:adresse ");
+    query.bindValue(":adresse",adresse);
+    query.exec();
+
+    int count =-1;
+
+            while(query.next())
+                    {
+                        count = query.value(0).toInt() ;
+                        //qDebug() << "count=" << count ;
+                        return count;
+
+                    }
+
+    return count;
+
+}
 
