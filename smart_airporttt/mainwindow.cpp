@@ -66,6 +66,14 @@ MainWindow::MainWindow(QWidget *parent)
 
             chartview->setParent(ui->horizontalFrame);
 
+    //map
+
+            QSettings settings(QSettings::IniFormat, QSettings::UserScope,
+                               QCoreApplication::organizationName(), QCoreApplication::applicationName());
+
+             ui->WebBrowser->dynamicCall("Navigate(const QString&)", "https://www.google.com/maps/place/ESPRIT/@36.9016729,10.1713215,15z");
+
+
 
 }
 

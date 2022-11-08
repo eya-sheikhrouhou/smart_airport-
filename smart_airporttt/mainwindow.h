@@ -38,7 +38,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    voyageur Etmp;   //why j ai ajouter hedha lahneeeee
+
+    voyageur Etmp;
 
 };
 #endif // MAINWINDOW_H
