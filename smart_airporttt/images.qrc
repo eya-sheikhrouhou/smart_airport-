@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>logo</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>printing.png</file>
+        <file>pdf.png</file>
+        <file>excel.png</file>
+    </qresource>
+</RCC>

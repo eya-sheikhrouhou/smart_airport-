@@ -14,6 +14,14 @@
 #include <QPrintDialog>
 #include <QPdfWriter>
 #include <QPainter>
+#include<QImage>
+#include"exportexcelobject.h"
+#include<QDateEdit>
+#include <QDate>
+
+
+
+
 // ******************
 
 
@@ -30,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
   ui->lineEdit_cin->setValidator(new QIntValidator(0,99999999,this));
 
 
-  //statistiques***********************************
+  ///statistiques***************************************************************************
 
   int cin=0;
         QString nom="";
@@ -44,12 +52,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 
             QPieSeries *series = new QPieSeries();
-            series->setHoleSize(0.35);
+            series->setHoleSize(0.35); //taamel fara8 f west el chaart
 
             QPieSlice *slice = series->append("Siliana", m.statistique("Siliana"));
 
-            slice->setExploded();
-            slice->setLabelVisible();
+            slice->setExploded();   //taamml el forme mtaa el kharja
+            slice->setLabelVisible();  //tdhaher el ktiba li kharja mel fleche
             series->append("Sfax", m.statistique("Sfax"));
             series->append("Tunis", m.statistique("Tunis"));
             series->append("Sousse", m.statistique("Sousse"));
@@ -66,15 +74,23 @@ MainWindow::MainWindow(QWidget *parent)
 
             chartview->setParent(ui->horizontalFrame);
 
+///******************************************************************************
     //map
 
-            QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                               QCoreApplication::organizationName(), QCoreApplication::applicationName());
+         //   QSettings settings(QSettings::IniFormat, QSettings::UserScope,
+                             //  QCoreApplication::organizationName(), QCoreApplication::applicationName());
 
-             ui->WebBrowser->dynamicCall("Navigate(const QString&)", "https://www.google.com/maps/place/ESPRIT/@36.9016729,10.1713215,15z");
+             ui->WebBrowser->dynamicCall("Navigate(const QString&)", "https://www.google.com/maps/place/%D9%85%D8%B7%D8%A7%D8%B1+%D8%AA%D9%88%D9%86%D8%B3+%D9%82%D8%B1%D8%B7%D8%A7%D8%AC+%D8%A7%D9%84%D8%AF%D9%88%D9%84%D9%8A%E2%80%AD/@36.8475562,10.2197488,17z/data=!3m1!4b1!4m5!3m4!1s0x12e2cad2e1d7f1bb:0x902488d100b5819b!8m2!3d36.8475562!4d10.2175601");
 
 
 
+///time*******************************************************************************************
+             QTimer *timer = new QTimer(this);
+              connect(timer, SIGNAL(timeout()), this, SLOT(myfunction()));
+              timer->start();
+              QTimer *timer1 = new QTimer(this);
+               connect(timer1, SIGNAL(timeout()), this, SLOT(mydate()));
+               timer1->start();
 }
 
 MainWindow::~MainWindow()
@@ -82,8 +98,28 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//video
+void MainWindow::on_actionon_triggered()
+{
+    player= new QMediaPlayer;
+    vw=new QVideoWidget;
+
+    auto filename=QFileDialog::getOpenFileName(this,"import mp4 file",QDir::rootPath(),"Excel Files(*.mp4)");
 
 
+    player->setVideoOutput(vw);
+    player->setMedia(QUrl::fromLocalFile(filename));
+    vw->setGeometry(100,100,300,400);
+
+    player->play();
+      vw->show();
+}
+
+void MainWindow::on_actionoff_triggered()
+{
+    player->stop();
+    vw->close();
+}
 
 
 void MainWindow::on_ajouter_clicked()
@@ -256,7 +292,7 @@ void MainWindow::on_pushButton_chercher_clicked()
     QString Nom = ui->lineEdit->text();
                ui->table_voyageur->setModel(m.recherchernom(Nom));
 }
-
+///click sur table view
 void MainWindow::on_table_voyageur_activated(const QModelIndex &index)
 {
     QString val=ui->table_voyageur->model()->index(index.row(),index.column()).data().toString();
@@ -289,32 +325,19 @@ else
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+///PDF*****************************************
 int MainWindow::on_pushButton_clicked()
 {
-    QPrinter printer;
+  /*  QPrinter printer;
           printer.setOutputFormat(QPrinter::PdfFormat);
           printer.setOutputFileName("voyageurs.pdf");
           QPainter painter;
+          QImage logo(":/new/prefix1/logo");
           if (! painter.begin(&printer)) { // failed to open file
               qWarning("failed to open file, is it writable?");
               return 1;
           }
+          painter.drawImage(-40,-40,logo);
           painter.drawText(40, 10, "Liste des voyageurs");
           painter.drawText(40, 30, "voy 1");
           painter.drawText(40, 50, "voy 2");
@@ -322,6 +345,233 @@ int MainWindow::on_pushButton_clicked()
               qWarning("failed in flushing page to disk, disk full?");
               return 1;
           }
-          painter.drawText(10, 40, "Finish Test");
+
+          painter.drawText(50, 100, "Finish Test");
           painter.end();
+          */
+    //***************************************
+    QString strStream;
+                QTextStream out(&strStream);
+                const int rowCount = ui->table_voyageur->model()->rowCount();
+                const int columnCount =ui->table_voyageur->model()->columnCount();
+                 //  QPainter painter;
+                     QImage logo(":/new/prefix1/logo");
+
+                     out<<     "<h2>logo:</h2>"
+                          "<img src=':/new/prefix1/logo' height='90' width='80'/>";
+
+
+                out <<  "<html>\n"
+                        "<head>\n"
+                        "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                        <<  QString("<title>%1</title>\n").arg("eleve")
+                        <<  "</head>\n"
+                        "<body bgcolor=#e8ceeb link=#5000A0>\n" ///#bfa1c2 reference du couleur violet
+
+                            "<h1>Liste des voyageurs</h1>"
+
+                  "<table border=1 cellspacing=10 cellpadding=10>\n";
+
+
+
+                // headers
+                    out << "<thead><tr bgcolor=#f0f0f0>";
+                    for (int column = 0; column < columnCount; column++)
+                        if (!ui->table_voyageur->isColumnHidden(column))
+                            out << QString("<th>%1</th>").arg(ui->table_voyageur->model()->headerData(column, Qt::Horizontal).toString());
+                    out << "</tr></thead>\n";
+                    // data table
+                       for (int row = 0; row < rowCount; row++) {
+                           out << "<tr>";
+                           for (int column = 0; column < columnCount; column++) {
+                               if (!ui->table_voyageur->isColumnHidden(column)) {
+                                   QString data = ui->table_voyageur->model()->data(ui->table_voyageur->model()->index(row, column)).toString().simplified();
+                                   out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+
+                               }
+                           }
+                           out << "</tr>\n";
+
+                       }
+                       out <<  "</table>\n"
+                           "</body>\n"
+                           "</html>\n";
+
+
+        QTextDocument *document = new QTextDocument();
+        document->setHtml(strStream);
+
+        QPrinter printer(QPrinter::PrinterResolution);
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setOutputFileName("voyageurs.pdf");
+        document->print(&printer);
+
+
+
+
 }
+
+
+
+
+
+
+
+void MainWindow::on_pushButton_3_clicked()
+{/*
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Excel file"), qApp->applicationDirPath (),
+                                                     tr("Excel Files (*.xls)"));
+     if (fileName.isEmpty())
+         return;
+       //instance                              //sheet title
+     ExportExcelObject obj(fileName, "mydata", ui->table_voyageur); //ken ektebech my data failed by DRIVER={Microsoft Excel Driver (*.xls)}.
+
+     //colums to export
+     obj.addField(0, "CIN", "char(20)");
+     obj.addField(1, "NOM", "char(20)");
+     obj.addField(2, "PRENOM", "char(20)");
+     obj.addField(3, "ADRESSE", "char(20)");
+     obj.addField(4, "DATE8NAISSANCE", "char(20)");
+
+
+
+     int retVal = obj.export2Excel();
+     if( retVal > 0)
+     {
+         QMessageBox::information(this, tr("Done"),
+                                  QString(tr("%1 records exported!")).arg(retVal)
+                                  );
+      }
+*/
+
+
+
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Excel file"), qApp->applicationDirPath (),
+                                                     tr("Excel Files (*.xls)"));
+     if (fileName.isEmpty())
+         return;
+
+     ExportExcelObject obj(fileName, "mydata", ui->table_voyageur);
+
+     //colums to export
+     obj.addField(0, "CIN", "char(20)");
+     obj.addField(1, "NOM", "char(20)");
+     obj.addField(2, "PRENOM", "char(20)");
+     obj.addField(3, "ADRESSE", "char(20)");
+     obj.addField(4, "DATE8NAISSANCE", "char(20)");
+
+
+
+
+     int retVal = obj.export2Excel();
+     if( retVal > 0)
+     {
+         QMessageBox::information(this, tr("Done"),
+                                  QString(tr("%1 records exported!")).arg(retVal)
+                                  );
+      }
+}
+
+
+
+void MainWindow::on_imprimer_clicked()
+{
+    QString strStream;
+            QTextStream out(&strStream);
+
+            const int rowCount = ui->table_voyageur->model()->rowCount();
+            const int columnCount = ui->table_voyageur->model()->columnCount();
+            QString TT = QDateTime::currentDateTime().toString();
+            out <<"<html>\n"
+                  "<head>\n"
+                   "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                << "<title>ERP - COMmANDE LIST<title>\n "
+                << "</head>\n"
+                "<body bgcolor=#ffffff link=#5000A0>\n"
+                "<h1 style=\"text-align: center;\"><strong> ******LISTE DES  licence commerciale ******"+TT+" </strong></h1>"
+                   +"<img src=C://Users//MOLKA//OneDrive//Bureau//logo//logo />"
+                "<table style=\"text-align: center; font-size: 20px;\" border=1>\n "
+                  "</br> </br>";
+            // headers
+            out << "<thead><tr bgcolor=#d6e5ff>";
+            for (int column = 0; column < columnCount; column++)
+                if (!ui->table_voyageur->isColumnHidden(column))
+                    out << QString("<th>%1</th>").arg(ui->table_voyageur->model()->headerData(column, Qt::Horizontal).toString());
+            out << "</tr></thead>\n";
+
+            // data table
+            for (int row = 0; row < rowCount; row++) {
+                out << "<tr>";
+                for (int column = 0; column < columnCount; column++) {
+                    if (!ui->table_voyageur->isColumnHidden(column)) {
+                        QString data =ui->table_voyageur->model()->data(ui->table_voyageur->model()->index(row, column)).toString().simplified();
+                        out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                    }
+                }
+                out << "</tr>\n";
+            }
+            out <<  "</table>\n"
+                "</body>\n"
+                "</html>\n";
+
+            QTextDocument *document = new QTextDocument();
+            document->setHtml(strStream);
+
+            QPrinter printer;
+
+            QPrintDialog *dialog = new QPrintDialog(&printer, nullptr);
+            if (dialog->exec() == QDialog::Accepted) {
+                document->print(&printer);
+            }
+
+            delete document;
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    QString filename=QFileDialog::getOpenFileName(this, tr("choose"), "", tr("image (*.png *.jpg *.jpeg *.bmp *.gif)"));
+        if(QString::compare(filename,QString())!=0)
+        {
+            QImage image;
+            bool valid = image.load(filename);
+            if(valid)
+            {
+                ui->placeimage->setPixmap(QPixmap::fromImage(image));
+            }
+            else
+            {
+                QMessageBox::critical(nullptr, QObject::tr("Not OK"),
+                                      QObject::tr("Image non effectuée.\n"
+                                                  "Click Cancel to exit."),QMessageBox::Cancel);
+            }
+        }
+}
+
+
+void MainWindow::myfunction()
+{
+  // qDebug() << "update..";
+
+    QTime time = QTime::currentTime();
+    QString time_text = time.toString("hh : mm : ss");
+    if ((time.second() % 2)==  0)
+    {
+        time_text[3] = ' ';
+        time_text[8] = ' ' ;
+    }
+    ui->label_time->setText(time_text);
+
+}
+void MainWindow::mydate()
+{
+  // qDebug() << "update..";
+
+    QDate date = QDate::currentDate();
+    QString date_text = date.toString("dd/MM/yyyy");
+
+    ui->label_date->setText(date_text);
+
+}
+
+
+

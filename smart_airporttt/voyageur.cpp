@@ -7,6 +7,7 @@
 
 
 
+
 voyageur::voyageur()
 {nom="";
  prenom="";
@@ -221,4 +222,3 @@ int voyageur::statistique(QString adresse)
     return count;
 
 }
-

@@ -17,12 +17,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     connection.cpp \
+    exportexcelobject.cpp \
     main.cpp \
     mainwindow.cpp \
     voyageur.cpp
 
 HEADERS += \
     connection.h \
+    exportexcelobject.h \
     mainwindow.h \
     voyageur.h
 
@@ -33,3 +35,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    images.qrc
