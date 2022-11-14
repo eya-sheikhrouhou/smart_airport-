@@ -40,9 +40,12 @@ public:
     bool modifier(int cin,QString tel,QString nom,QString prenom,QDate dat);
 
 QSqlQueryModel * trie_NOM();
+QSqlQueryModel *trie_ADRESSE();
 QSqlQueryModel * trie_CIN();
 //QSqlQueryModel * chercher(QString nom);
 QSqlQueryModel* recherchernom(QString a);
+QSqlQueryModel* rechercheradresse(QString nom);
+QSqlQueryModel* recherchercin(QString cin);
 
 bool recherchercin(int cin);
 

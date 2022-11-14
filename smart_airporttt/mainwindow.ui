@@ -22,8 +22,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>1341</width>
-      <height>651</height>
+      <width>1431</width>
+      <height>711</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -390,6 +390,11 @@ max-height: 13px;
        </item>
        <item>
         <property name="text">
+         <string>adresse</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>nom</string>
         </property>
        </item>
@@ -707,6 +712,44 @@ background-color: rgb(224, 130, 255);</string>
         <string>gi</string>
        </property>
       </widget>
+      <widget class="QComboBox" name="chercher">
+       <property name="geometry">
+        <rect>
+         <x>1050</x>
+         <y>240</y>
+         <width>73</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>nom</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>adresse</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>cin</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>1140</x>
+         <y>240</y>
+         <width>51</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+      </widget>
       <zorder>label_5</zorder>
       <zorder>label_6</zorder>
       <zorder>lineEdit_nom</zorder>
@@ -734,6 +777,8 @@ background-color: rgb(224, 130, 255);</string>
       <zorder>label_time</zorder>
       <zorder>label_14</zorder>
       <zorder>label_date</zorder>
+      <zorder>chercher</zorder>
+      <zorder>lineEdit</zorder>
      </widget>
      <widget class="QPushButton" name="pushButton_modifier">
       <property name="geometry">
@@ -834,23 +879,10 @@ max-height: 13px;
        <string>trier</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit">
-      <property name="geometry">
-       <rect>
-        <x>1040</x>
-        <y>250</y>
-        <width>51</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pushButton_chercher">
       <property name="geometry">
        <rect>
-        <x>1110</x>
+        <x>1220</x>
         <y>250</y>
         <width>62</width>
         <height>21</height>
@@ -881,73 +913,6 @@ max-height: 13px;
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_3">
-     <attribute name="title">
-      <string>carte fidelité</string>
-     </attribute>
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>80</y>
-        <width>93</width>
-        <height>28</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>chercher</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_2">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>50</y>
-        <width>113</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>201</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>selectionne un voyageur</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="playvideo">
-      <property name="geometry">
-       <rect>
-        <x>920</x>
-        <y>10</y>
-        <width>93</width>
-        <height>28</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>play video</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="_stopvideo">
-      <property name="geometry">
-       <rect>
-        <x>920</x>
-        <y>50</y>
-        <width>93</width>
-        <height>28</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>stop video</string>
-      </property>
-     </widget>
-    </widget>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
       <string>Map</string>
@@ -966,33 +931,20 @@ max-height: 13px;
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="tab_3">
      <attribute name="title">
-      <string>statistique</string>
+      <string>Page</string>
      </attribute>
      <widget class="QFrame" name="horizontalFrame">
       <property name="geometry">
        <rect>
-        <x>110</x>
-        <y>30</y>
-        <width>941</width>
-        <height>541</height>
+        <x>150</x>
+        <y>60</y>
+        <width>821</width>
+        <height>531</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout"/>
-     </widget>
-     <widget class="QPushButton" name="stat">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>100</y>
-        <width>93</width>
-        <height>28</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>stat</string>
-      </property>
      </widget>
     </widget>
    </widget>

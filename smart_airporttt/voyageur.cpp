@@ -156,6 +156,20 @@ QSqlQueryModel * voyageur::trie_NOM()
 
     return model;
 }
+QSqlQueryModel * voyageur::trie_ADRESSE()
+{
+    QSqlQueryModel * model= new QSqlQueryModel();
+
+          model->setQuery("SELECT * FROM VOYAGEURS ORDER BY adresse");
+          model->setHeaderData(0,Qt::Horizontal,QObject::tr("cin"));
+          model->setHeaderData(1,Qt::Horizontal,QObject::tr("nom"));
+          model->setHeaderData(2,Qt::Horizontal,QObject::tr("prenom"));
+          model->setHeaderData(3,Qt::Horizontal,QObject::tr("adresse"));
+          model->setHeaderData(4,Qt::Horizontal,QObject::tr("date_naissance"));
+
+
+    return model;
+}
 
 QSqlQueryModel * voyageur::trie_CIN()
 {
@@ -188,15 +202,34 @@ QSqlQueryModel* voyageur::recherchernom(QString nom)
             model->setHeaderData(5, Qt::Horizontal, QObject::tr("date_naissance"));
             return model;
     }
-
-bool voyageur::recherchercin( int cin)
+QSqlQueryModel* voyageur::rechercheradresse(QString adresse)
     {
-    QSqlQuery query;
-        query.prepare("select * from VOYAGEURS where cin = :cin;");
-        query.bindValue(":cin", cin);
-        return query.exec();
 
+    QSqlQueryModel * model= new QSqlQueryModel();
+
+            model->setQuery("select * from VOYAGEURS where adresse='"+adresse+"' ");
+            model->setHeaderData(1, Qt::Horizontal, QObject::tr("cin"));
+            model->setHeaderData(2, Qt::Horizontal, QObject::tr("nom"));
+            model->setHeaderData(3, Qt::Horizontal, QObject::tr("prenom"));
+            model->setHeaderData(4, Qt::Horizontal, QObject::tr("adresse"));
+            model->setHeaderData(5, Qt::Horizontal, QObject::tr("date_naissance"));
+            return model;
     }
+
+QSqlQueryModel* voyageur::recherchercin(QString cin)
+    {
+
+    QSqlQueryModel * model= new QSqlQueryModel();
+
+            model->setQuery("select * from VOYAGEURS where cin ='"+cin+"' ");
+            model->setHeaderData(1, Qt::Horizontal, QObject::tr("cin"));
+            model->setHeaderData(2, Qt::Horizontal, QObject::tr("nom"));
+            model->setHeaderData(3, Qt::Horizontal, QObject::tr("prenom"));
+            model->setHeaderData(4, Qt::Horizontal, QObject::tr("adresse"));
+            model->setHeaderData(5, Qt::Horizontal, QObject::tr("date_naissance"));
+            return model;
+    }
+
 //juste njareb fel git
 
 

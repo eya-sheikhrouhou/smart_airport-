@@ -51,28 +51,41 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-            QPieSeries *series = new QPieSeries();
-            series->setHoleSize(0.35); //taamel fara8 f west el chaart
-
-            QPieSlice *slice = series->append("Siliana", m.statistique("Siliana"));
-
-            slice->setExploded();   //taamml el forme mtaa el kharja
-            slice->setLabelVisible();  //tdhaher el ktiba li kharja mel fleche
-            series->append("Sfax", m.statistique("Sfax"));
-            series->append("Tunis", m.statistique("Tunis"));
-            series->append("Sousse", m.statistique("Sousse"));
-
-            QChart *chart = new QChart();
-            chart->addSeries(series);
-            chart->setAnimationOptions(QChart::SeriesAnimations);
-            chart->setTitle("statistiques par Adresse");
-            chart->setTheme(QChart::ChartThemeBlueIcy);
 
 
-            QChartView *chartview = new QChartView(chart);
-            chartview->setRenderHint(QPainter::Antialiasing);
 
-            chartview->setParent(ui->horizontalFrame);
+                QPieSeries *series = new QPieSeries();
+                series->setHoleSize(0.35);
+
+
+                int nbr=m.statistique("Tunis");
+                int nbrr=m.statistique("Sfax");
+                int nbrrr=m.statistique("Sousse");
+                int nb=m.statistique("Siliana");
+                int total=nbr+nbrr+nbrrr+nb;
+
+                QString a=QString("Tunis "+QString::number((nbr*100)/total,'f',2)+"%" );
+                QString b=QString("Sfax "+QString::number((nbrr*100)/total,'f',2)+"%" );
+                QString c=QString("Sousse "+QString::number((nbrrr*100)/total,'f',2)+"%" );
+                QString d=QString("Siliana "+QString::number((nb*100)/total,'f',2)+"%" );
+                QPieSlice *slice = series->append(d,nb);
+                slice->setExploded();
+                slice->setLabelVisible();
+                series->append(a,nbr);
+                series->append(b, nbrr);
+                series->append(c, nbrrr);
+
+                QChart *chart = new QChart();
+                chart->addSeries(series);
+                chart->setAnimationOptions(QChart::SeriesAnimations);
+                chart->setTitle("statistiques parlieu");
+                chart->setTheme(QChart::ChartThemeBlueIcy);
+
+
+                QChartView *chartview = new QChartView(chart);
+                chartview->setRenderHint(QPainter::Antialiasing);
+
+                chartview->setParent(ui->horizontalFrame);
 
 ///******************************************************************************
     //map
@@ -104,15 +117,16 @@ void MainWindow::on_actionon_triggered()
     player= new QMediaPlayer;
     vw=new QVideoWidget;
 
-    auto filename=QFileDialog::getOpenFileName(this,"import mp4 file",QDir::rootPath(),"Excel Files(*.mp4)");
+  auto filename=QFileDialog::getOpenFileName(this,"import mp4 file",QDir::rootPath(),"Excel Files(*.mp4)");
 
 
     player->setVideoOutput(vw);
     player->setMedia(QUrl::fromLocalFile(filename));
     vw->setGeometry(100,100,300,400);
-
+     vw->show();
     player->play();
-      vw->show();
+   // QDebug  <<player->state();
+
 }
 
 void MainWindow::on_actionoff_triggered()
@@ -135,9 +149,9 @@ void MainWindow::on_ajouter_clicked()
      voyageur v(cin,nom,prenom,adresse,date_naissance);
 
         bool test=v.ajouter();
-         bool test1=v.recherchercin(v.getcin());
+         //bool test1=v.recherchercin(v.getcin());
         if(test )
-        { if(test1){
+        {
             //mise a jour
             ui->table_voyageur->setModel(Etmp.afficher());
             QMessageBox::information(nullptr,QObject::tr("ok"),QObject::tr("ajout  effectué \n ""click cancel to exist."),QMessageBox::Cancel);
@@ -151,7 +165,7 @@ void MainWindow::on_ajouter_clicked()
 
 
 
-            }
+
         }
         else
             QMessageBox::critical(nullptr,QObject::tr("ok"),QObject::tr("ajout non   effectué \n ""click cancel to exist."),QMessageBox::Cancel);
@@ -223,17 +237,17 @@ void MainWindow::on_pushButton_modifier_clicked()
 
 void MainWindow::on_pushButton_trie_clicked()
 {
-   voyageur m;
+   voyageur v;
                 QString choix=ui->comboBox_tri->currentText();
                 if (choix=="nom")
                 {
-                    ui->table_voyageur->setModel(m.trie_NOM());
-                    ui->table_voyageur->setModel(m.afficher());
-                    bool test=m.trie_NOM();
+                    ui->table_voyageur->setModel(v.trie_NOM());
+                    ui->table_voyageur->setModel(v.afficher());
+                    bool test=v.trie_NOM();
                     if (test)
                     {
 
-                ui->table_voyageur->setModel(m.trie_NOM());
+                ui->table_voyageur->setModel(v.trie_NOM());
                         QMessageBox::information(nullptr,QObject::tr("ok"),
                                                  QObject::tr("tri Nom effectué \n"
                                                              "Click Cancel to exist ."),QMessageBox::Cancel);
@@ -246,21 +260,40 @@ void MainWindow::on_pushButton_trie_clicked()
                 }
                 if (choix=="cin")
                 {
-                    ui->table_voyageur->setModel(m.trie_CIN());
-                    ui->table_voyageur->setModel(m.afficher());
-                    bool test=m.trie_CIN();
+                    ui->table_voyageur->setModel(v.trie_CIN());
+                    ui->table_voyageur->setModel(v.afficher());
+                    bool test=v.trie_CIN();
                     if (test)
                     {
 
-                ui->table_voyageur->setModel(m.trie_CIN());
+                ui->table_voyageur->setModel(v.trie_CIN());
                         QMessageBox::information(nullptr,QObject::tr("ok"),
-                                                 QObject::tr("tri prix effectué \n"
+                                                 QObject::tr("tri cin effectué \n"
                                                              "Click Cancel to exist ."),QMessageBox::Cancel);
 
                     }
                     else
                           QMessageBox::critical(nullptr, QObject::tr("non"),
-                                      QObject::tr("tri prix failed.\n"
+                                      QObject::tr("tri cin failed.\n"
+                                                  "Click Cancel to exit."), QMessageBox::Cancel);
+                }
+                if (choix=="adresse")
+                {
+                    ui->table_voyageur->setModel(v.trie_ADRESSE());
+                    ui->table_voyageur->setModel(v.afficher());
+                    bool test=v.trie_ADRESSE();
+                    if (test)
+                    {
+
+                ui->table_voyageur->setModel(v.trie_ADRESSE());
+                        QMessageBox::information(nullptr,QObject::tr("ok"),
+                                                 QObject::tr("tri adresse effectué \n"
+                                                             "Click Cancel to exist ."),QMessageBox::Cancel);
+
+                    }
+                    else
+                          QMessageBox::critical(nullptr, QObject::tr("non"),
+                                      QObject::tr("tri adresse failed.\n"
                                                   "Click Cancel to exit."), QMessageBox::Cancel);
                 }
 
@@ -268,29 +301,33 @@ void MainWindow::on_pushButton_trie_clicked()
 
 void MainWindow::on_pushButton_chercher_clicked()
 {
-     voyageur m;
-     /*
-     QString nom=ui->lineEdit->text();
+     voyageur v;
 
-     ui->table_voyageur->setModel(m.chercher(nom));
 
-     bool test=m.chercher(nom);
-     if (test)
+
+     QString choix=ui->chercher->currentText();
+     if (choix=="nom")
      {
-
- ui->table_voyageur->setModel(m.chercher(nom));
-         QMessageBox::information(nullptr,QObject::tr("ok"),
-                                  QObject::tr("recherche effectué \n"
-                                              "Click Cancel to exist ."),QMessageBox::Cancel);
+         QString Nom = ui->lineEdit->text();
+           ui->table_voyageur->setModel(v.recherchernom(Nom));
 
      }
-     else
-           QMessageBox::critical(nullptr, QObject::tr("non"),
-                       QObject::tr("recherche  failed.\n"
-                                   "Click Cancel to exit."), QMessageBox::Cancel);*
-         */
+     if (choix=="adresse")
+     {
+         QString adresse= ui->lineEdit->text();
+                    ui->table_voyageur->setModel(v.rechercheradresse(adresse));
+
+     }
+     if (choix=="cin")
+     {
+        int cin = ui->lineEdit->text().toInt();
+        QString cin_string=QString::number(cin);
+         ui->table_voyageur->setModel(v.recherchercin(cin_string));
+
+     }
+    /*
     QString Nom = ui->lineEdit->text();
-               ui->table_voyageur->setModel(m.recherchernom(Nom));
+               ui->table_voyageur->setModel(m.recherchernom(Nom));*/
 }
 ///click sur table view
 void MainWindow::on_table_voyageur_activated(const QModelIndex &index)
@@ -406,6 +443,19 @@ int MainWindow::on_pushButton_clicked()
         printer.setOutputFileName("voyageurs.pdf");
         document->print(&printer);
 
+        int reponse = QMessageBox::question(this, "Génerer PDF", "<PDF Enregistré>...Vous Voulez Affichez Le PDF ?", QMessageBox::Yes |  QMessageBox::No);
+                          if (reponse == QMessageBox::Yes)
+                          {
+                              QDesktopServices::openUrl(QUrl::fromLocalFile("C:/Users/eya sheikhrouhou/Documents/build-smart_airporttt-Desktop_Qt_5_9_9_MinGW_32bit-Debug/voyageurs.pdf"));
+
+                             // painter.end();
+                          }
+                          if (reponse == QMessageBox::No)
+                          {
+                              //painter.end();
+                          }
+                         // painter.end();
+
 
 
 
@@ -451,7 +501,7 @@ void MainWindow::on_pushButton_3_clicked()
      if (fileName.isEmpty())
          return;
 
-     ExportExcelObject obj(fileName, "mydata", ui->table_voyageur);
+     ExportExcelObject obj(fileName, "liste voyageurs", ui->table_voyageur);
 
      //colums to export
      obj.addField(0, "CIN", "char(20)");
@@ -485,11 +535,11 @@ void MainWindow::on_imprimer_clicked()
             out <<"<html>\n"
                   "<head>\n"
                    "<meta Content=\"Text/html; charset=Windows-1251\">\n"
-                << "<title>ERP - COMmANDE LIST<title>\n "
+                << "<title>ERP - VOYAGEURS LIST<title>\n "
                 << "</head>\n"
                 "<body bgcolor=#ffffff link=#5000A0>\n"
-                "<h1 style=\"text-align: center;\"><strong> ******LISTE DES  licence commerciale ******"+TT+" </strong></h1>"
-                   +"<img src=C://Users//MOLKA//OneDrive//Bureau//logo//logo />"
+                "<h1 style=\"text-align: center;\"><strong> ******LISTE DES  voyageurs ******"+TT+" </strong></h1>"
+                   +"<img src=':/new/prefix1/logo' height='90' width='80'/>"
                 "<table style=\"text-align: center; font-size: 20px;\" border=1>\n "
                   "</br> </br>";
             // headers
