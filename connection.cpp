@@ -14,7 +14,7 @@ db.setPassword("esprit18");//inserer mot de passe de cet utilisateur
 
 if (db.open())
 test=true;
-
+//fbdgbdfbsbsbvfb tuto
 
     return  test;
 }
