@@ -104,6 +104,30 @@ MainWindow::MainWindow(QWidget *parent)
               QTimer *timer1 = new QTimer(this);
                connect(timer1, SIGNAL(timeout()), this, SLOT(mydate()));
                timer1->start();
+
+               ///*******************ARDUINO******************************************
+               /// *******************************************************************
+               int ret=A.connect_arduino();
+                           switch (ret)
+                           {
+                           case(0): qDebug() << "arduino  is available and connected to :" <<A.getarduino_port_name();
+                               ui->label_24->setText("Arduino  is available and connected");
+                               ui->label_24->setStyleSheet("QLabel {color : green; }");
+                               arduino_connected=1;
+                           break ;
+                           case(1): qDebug() << "arduino  is available and not connected to :" <<A.getarduino_port_name();
+                               if (arduino_connected==0)
+                              { ui->label_24->setText("Arduino  is available and not connected");
+                               ui->label_24->setStyleSheet("QLabel {color : yellow; }");}
+                           break ;
+                           case(-1): qDebug() << "arduino  is not available";
+                               ui->label_24->setText("Arduino  is not available");
+                               ui->label_24->setStyleSheet("QLabel {color : red; }");
+                               arduino_connected=0;
+                               break ;
+                               }
+
+                QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label()));
 }
 
 MainWindow::~MainWindow()
@@ -154,6 +178,7 @@ void MainWindow::on_ajouter_clicked()
         {
             //mise a jour
             ui->table_voyageur->setModel(Etmp.afficher());
+            stat();
             QMessageBox::information(nullptr,QObject::tr("ok"),QObject::tr("ajout  effectué \n ""click cancel to exist."),QMessageBox::Cancel);
 
 
@@ -193,6 +218,7 @@ void MainWindow::on_pushButton_supprimer_clicked()
     if(test)
     {    //mise ajour
         ui->table_voyageur->setModel(Etmp.afficher());
+         stat();
          QMessageBox::information(nullptr,QObject::tr("ok"),QObject::tr("suppression effectué \n ""click cancel to exist."),QMessageBox::Cancel);
 
     }
@@ -222,6 +248,7 @@ void MainWindow::on_pushButton_modifier_clicked()
   if(test)
   {  //mise a jour
       ui->table_voyageur->setModel(Etmp.afficher());
+      stat();
       QMessageBox::information(nullptr,QObject::tr("ok"),QObject::tr("modification  effectué \n ""click cancel to exist."),QMessageBox::Cancel);
   }
   else
@@ -622,6 +649,119 @@ void MainWindow::mydate()
     ui->label_date->setText(date_text);
 
 }
+void MainWindow::stat()
+{
+    int cin=0;
+          QString nom="";
+          QString prenom="";
+          QString adresse="";
+          QDate date_naissance;
 
 
+        voyageur m(cin,nom,prenom,adresse,date_naissance);
+
+
+
+
+
+
+                  QPieSeries *series = new QPieSeries();
+                  series->setHoleSize(0.35);
+
+
+                  int nbr=m.statistique("Tunis");
+                  int nbrr=m.statistique("Sfax");
+                  int nbrrr=m.statistique("Sousse");
+                  int nb=m.statistique("Siliana");
+                  int total=nbr+nbrr+nbrrr+nb;
+
+                  QString a=QString("Tunis "+QString::number((nbr*100)/total,'f',2)+"%" );
+                  QString b=QString("Sfax "+QString::number((nbrr*100)/total,'f',2)+"%" );
+                  QString c=QString("Sousse "+QString::number((nbrrr*100)/total,'f',2)+"%" );
+                  QString d=QString("Siliana "+QString::number((nb*100)/total,'f',2)+"%" );
+                  QPieSlice *slice = series->append(d,nb);
+                  slice->setExploded();
+                  slice->setLabelVisible();
+                  series->append(a,nbr);
+                  series->append(b, nbrr);
+                  series->append(c, nbrrr);
+
+                  QChart *chart = new QChart();
+                  chart->addSeries(series);
+                  chart->setAnimationOptions(QChart::SeriesAnimations);
+                  chart->setTitle("statistiques parlieu");
+                  chart->setTheme(QChart::ChartThemeBlueIcy);
+
+
+                  QChartView *chartview = new QChartView(chart);
+                  chartview->setRenderHint(QPainter::Antialiasing);
+
+                  chartview->setParent(ui->horizontalFrame);
+
+
+
+}
+
+
+void MainWindow::update_label()
+{
+
+    QByteArray choice;
+    data=A.read_from_arduino();
+
+
+
+    QString Message;
+        qDebug()<<"oui";
+    int job;
+    int confirm=0;
+
+    for (int i=0;i<data.length();i++)
+    {
+        code=code+data[i];
+    }
+    if (code.contains("\r\n"))   //\r stands for “Carriage Return”
+    {
+        Message="Carte RFID introuvable dans la base de données";
+        code.remove("\r\n");
+        ui->rfid_code_line->setText(code);
+        QSqlQuery qry;
+        qry.prepare( " select * from voyageurs where CODE =:code");
+        qry.bindValue(":code",code);
+        if(qry.exec( ))
+        {
+            while(qry.next())
+
+        {
+                job=qry.value(6).toInt();
+                if (qry.value(6)==0)
+                {
+                    A.write_to_arduino("0");
+                 Message="Le voyageur : "+qry.value(1).toString()+" "+qry.value(2).toString()+" CIN = "+qry.value(0).toString()+" NOM: "+qry.value(3).toString()+" vient d'entrer !";
+                }
+                else if (qry.value(6)==1)
+                {
+                 A.write_to_arduino("1");
+                 Message="Le voyageur : "+qry.value(1).toString()+" "+qry.value(2).toString()+" CIN = "+qry.value(0).toString()+" NOM: "+qry.value(3).toString()+" vient de rentrer !";
+                }
+                confirm=1;
+
+        }
+        }
+           /* if (job==0)
+        qry.prepare( " UPDATE policier set on_job=1 where CODE =:code");
+            else
+            qry.prepare( " UPDATE policier set on_job=0 where CODE =:code");
+        qry.bindValue(":code",code);
+        qry.exec( );
+        mySystemTrayIcon ->showMessage(tr("Alerte"),tr(Message.toStdString().c_str()));
+
+        code="";
+
+    }
+    qDebug()<<code_pad;
+}
+*/
+}
+}
 

@@ -8,7 +8,7 @@
 #include <QMediaPlayer>
 #include <QVideoWidget>
 #include <QDialog>
-
+#include"arduino.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -58,6 +58,8 @@ private slots:
     void on_pushButton_4_clicked();
     void myfunction();
     void mydate();
+    void stat();
+    void update_label();
 private:
     QMediaPlayer* player;
     QVideoWidget* vw;
@@ -65,6 +67,10 @@ private:
     Ui::MainWindow *ui;
 
     voyageur Etmp;
+    QByteArray data;
+   Arduino A;
+   QString code;
+      int arduino_connected;
 
 
 };
