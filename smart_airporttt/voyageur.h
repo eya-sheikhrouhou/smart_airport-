@@ -20,7 +20,7 @@
 class voyageur
 {
 public:
-    voyageur(int,QString,QString,QString,QDate);
+    voyageur(int,QString,QString,QString,QDate,QString);
     //setters
     void setcin(int n);
     void setnom(QString n);
@@ -48,8 +48,11 @@ QSqlQueryModel* rechercheradresse(QString nom);
 QSqlQueryModel* recherchercin(QString cin);
 
 bool recherchercin(int cin);
+QSqlQueryModel* rechercherccode(QString cin);
 
 int statistique(QString adresse);
+bool modifier_code(QString code,QString cin);
+bool supprimer_code(QString code,QString cin);
 
 
 
@@ -58,8 +61,9 @@ int statistique(QString adresse);
     voyageur();
 private:
     int cin;
-    QString nom,prenom,adresse;
+    QString nom,prenom,adresse,code;
     QDate date_naissance;
+
 
 
 };

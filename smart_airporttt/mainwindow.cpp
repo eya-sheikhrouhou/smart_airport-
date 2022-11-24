@@ -45,9 +45,10 @@ MainWindow::MainWindow(QWidget *parent)
         QString prenom="";
         QString adresse="";
         QDate date_naissance;
+        QString code="";
 
 
-      voyageur m(cin,nom,prenom,adresse,date_naissance);
+      voyageur m(cin,nom,prenom,adresse,date_naissance,code);
 
 
 
@@ -168,9 +169,9 @@ void MainWindow::on_ajouter_clicked()
      QString prenom=ui->lineEdit_prenom->text();
      QString adresse=ui->lineEdit_adresse->text();
     QDate date_naissance=ui->dateEdit->date();
+   QString code="";
 
-
-     voyageur v(cin,nom,prenom,adresse,date_naissance);
+     voyageur v(cin,nom,prenom,adresse,date_naissance,code);
 
         bool test=v.ajouter();
          //bool test1=v.recherchercin(v.getcin());
@@ -656,9 +657,9 @@ void MainWindow::stat()
           QString prenom="";
           QString adresse="";
           QDate date_naissance;
+  QString code="";
 
-
-        voyageur m(cin,nom,prenom,adresse,date_naissance);
+        voyageur m(cin,nom,prenom,adresse,date_naissance,code);
 
 
 
@@ -705,63 +706,57 @@ void MainWindow::stat()
 
 void MainWindow::update_label()
 {
-
-    QByteArray choice;
     data=A.read_from_arduino();
 
 
 
     QString Message;
         qDebug()<<"oui";
-    int job;
-    int confirm=0;
-
-    for (int i=0;i<data.length();i++)
-    {
-        code=code+data[i];
-    }
-    if (code.contains("\r\n"))   //\r stands for “Carriage Return”
-    {
-        Message="Carte RFID introuvable dans la base de données";
-        code.remove("\r\n");
-        ui->rfid_code_line->setText(code);
-        QSqlQuery qry;
-        qry.prepare( " select * from voyageurs where CODE =:code");
-        qry.bindValue(":code",code);
-        if(qry.exec( ))
+        for (int i=0;i<data.length();i++)
         {
-            while(qry.next())
-
+            code=code+data[i];
+        }
+        if (code.contains("\r\n"))   //\r stands for “Carriage Return”
         {
-                job=qry.value(6).toInt();
-                if (qry.value(6)==0)
-                {
-                    A.write_to_arduino("0");
-                 Message="Le voyageur : "+qry.value(1).toString()+" "+qry.value(2).toString()+" CIN = "+qry.value(0).toString()+" NOM: "+qry.value(3).toString()+" vient d'entrer !";
-                }
-                else if (qry.value(6)==1)
-                {
-                 A.write_to_arduino("1");
-                 Message="Le voyageur : "+qry.value(1).toString()+" "+qry.value(2).toString()+" CIN = "+qry.value(0).toString()+" NOM: "+qry.value(3).toString()+" vient de rentrer !";
-                }
-                confirm=1;
+            Message="Carte RFID introuvable dans la base de données";
+            code.remove("\r\n");
+            ui->rfid_code_line->setText(code);
 
-        }
-        }
-           /* if (job==0)
-        qry.prepare( " UPDATE policier set on_job=1 where CODE =:code");
-            else
-            qry.prepare( " UPDATE policier set on_job=0 where CODE =:code");
-        qry.bindValue(":code",code);
-        qry.exec( );
-        mySystemTrayIcon ->showMessage(tr("Alerte"),tr(Message.toStdString().c_str()));
 
-        code="";
 
-    }
-    qDebug()<<code_pad;
+                   // QSqlQuery qry;
+                  // qry.prepare( " select * from voyageurs where cin =:data");
+                  // qry.bindValue(":code",data);
+                   int cin =ui->lineEdit_2->text().toInt();
+                     int cin_supp =ui->lineEdit_3->text().toInt();
+                   QSqlQuery query;
+
+                  QString cin_string=QString::number(cin);
+                  QString cinsupp_string=QString::number(cin_supp);
+
+
+                   bool test=Etmp.modifier_code(code,cin_string);
+                   if(test)
+                   {  //mise a jour
+                       ui->table_voyageur->setModel(Etmp.afficher());
+                       stat();
+                       QMessageBox::information(nullptr,QObject::tr("ok"),QObject::tr("RFID effectué \n ""click cancel to exist."),QMessageBox::Cancel);
+                   }
+                   else
+                       QMessageBox::critical(nullptr,QObject::tr("ok"),QObject::tr("RFID non   effectué \n ""click cancel to exist."),QMessageBox::Cancel);
+
+
+
+
+
+
+
+
+
+
+                 }
+
+
 }
-*/
-}
-}
+
 

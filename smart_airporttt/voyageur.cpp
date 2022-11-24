@@ -13,9 +13,9 @@ voyageur::voyageur()
  prenom="";
  adresse="";
  cin=0;
-
+  QString code="";
 }
-voyageur::voyageur(int ci,QString no,QString pre,QString adre,QDate dat)
+voyageur::voyageur(int ci,QString no,QString pre,QString adre,QDate dat,QString code)
 {
     nom=no;
     cin=ci;
@@ -55,6 +55,7 @@ bool voyageur::ajouter()
         query.bindValue(":prenom", prenom);
         query.bindValue(":adresse", adresse);
          query.bindValue(":date_naissance", date_naissance);
+          query.bindValue(":code", code);
        return query.exec();
 
 
@@ -85,6 +86,27 @@ bool voyageur::supprimer(int cin)
 
 }
 
+bool voyageur::supprimer_code(QString code,QString cin)
+{
+    QSqlQuery query;
+
+        if(query.exec("select * from voyageurs where cin=:cin"))
+        { int count=0;
+            while(query.next())
+                count++;
+            if (count!=0)
+           {
+              query.prepare(" Delete  from voyageurs where cin=:cin");
+              query.bindValue(":cin",cin);
+               return query.exec();
+            }
+
+ else    return false;
+
+      }
+
+
+}
 
 QSqlQueryModel * voyageur::afficher()
 {
@@ -97,19 +119,33 @@ QSqlQueryModel * voyageur::afficher()
     model->setHeaderData(2,Qt::Horizontal,QObject::tr("prenom"));
      model->setHeaderData(3,Qt::Horizontal,QObject::tr("adresse"));
      model->setHeaderData(4,Qt::Horizontal,QObject::tr("date_naissance"));
-
+   model->setHeaderData(5,Qt::Horizontal,QObject::tr("code"));
      return model;
 }
 
 bool voyageur::modifier(int cin,QString adresse,QString nom,QString prenom,QDate date_naissance)
 {
     QSqlQuery query;
-    query.prepare("update  VOYAGEURS set adresse=:adresse,nom=:nom,prenom=:prenom ,date_naissance=:date_naissance   where cin=:cin");
+    query.prepare("update  VOYAGEURS set adresse=:adresse,nom=:nom,prenom=:prenom ,date_naissance=:date_naissance ,code=:code   where cin=:cin");
     query.bindValue(":cin",cin);
     query.bindValue(":adresse", adresse);
      query.bindValue(":nom", nom);
       query.bindValue(":prenom", prenom);
        query.bindValue(":date_naissance", date_naissance);
+       query.bindValue(":code",code);
+    return    query.exec();
+}
+
+bool voyageur::modifier_code(QString code,QString cin)
+{
+    QSqlQuery query;
+    query.prepare("update  VOYAGEURS set  code=:code   where cin=:cin");
+    query.bindValue(":cin",cin);
+    query.bindValue(":adresse", adresse);
+     query.bindValue(":nom", nom);
+      query.bindValue(":prenom", prenom);
+       query.bindValue(":date_naissance", date_naissance);
+       query.bindValue(":code",code);
     return    query.exec();
 }
 
@@ -216,6 +252,7 @@ QSqlQueryModel* voyageur::rechercheradresse(QString adresse)
             return model;
     }
 
+
 QSqlQueryModel* voyageur::recherchercin(QString cin)
     {
 
@@ -232,6 +269,20 @@ QSqlQueryModel* voyageur::recherchercin(QString cin)
 
 //juste njareb fel git
 
+QSqlQueryModel* voyageur::rechercherccode(QString code)
+    {
+
+    QSqlQueryModel * model= new QSqlQueryModel();
+
+            model->setQuery("select * from VOYAGEURS where code ='"+code+"' ");
+            model->setHeaderData(1, Qt::Horizontal, QObject::tr("cin"));
+            model->setHeaderData(2, Qt::Horizontal, QObject::tr("nom"));
+            model->setHeaderData(3, Qt::Horizontal, QObject::tr("prenom"));
+            model->setHeaderData(4, Qt::Horizontal, QObject::tr("adresse"));
+            model->setHeaderData(5, Qt::Horizontal, QObject::tr("date_naissance"));
+            model->setHeaderData(6, Qt::Horizontal, QObject::tr("code"));
+            return model;
+    }
 
 
 
