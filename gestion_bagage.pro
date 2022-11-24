@@ -21,15 +21,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     bagage.cpp \
     connection.cpp \
+    login.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     bagage.h \
     connection.h \
+    login.h \
     mainwindow.h
 
 FORMS += \
+    login.ui \
     mainwindow.ui
 
 # Default rules for deployment.
