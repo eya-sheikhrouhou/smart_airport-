@@ -23,17 +23,20 @@ SOURCES += \
     connection.cpp \
     login.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    menu.cpp
 
 HEADERS += \
     bagage.h \
     connection.h \
     login.h \
-    mainwindow.h
+    mainwindow.h \
+    menu.h
 
 FORMS += \
     login.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    menu.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

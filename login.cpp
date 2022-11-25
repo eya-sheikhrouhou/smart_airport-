@@ -19,14 +19,11 @@ login::~login()
 int login::on_add_info_clicked()
 {
    QMessageBox msg;
-
     QString id = ui->id->text() ;
 
     if  (id.length()<7 and (id.mid(0,3)!="DIR" or  id.mid(0,3)!="EMP" ) )
     {
                  QMessageBox::information(this,"alert","invalid ID!");
-
-
 
     } else {
        QSqlQuery qry;
@@ -38,7 +35,15 @@ int login::on_add_info_clicked()
        qry.next() ;
        if(qry.isValid()) {
            QMessageBox::information(this,"alert","login success !");
-           main.show() ;
+          if(id.mid(0,3)=="DIR" ){
+              mn.show();
+              this->hide() ;
+          }
+          else {
+              mn.hide_button() ;
+              mn.show() ;
+              this->hide() ;
+          }
        }
        else{
             QMessageBox::information(this,"alert","login failed ! \n incorrect password ");

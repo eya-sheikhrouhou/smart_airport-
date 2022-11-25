@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "mainwindow.h"
+#include "menu.h"
 
 namespace Ui {
 class login;
@@ -23,6 +24,7 @@ private slots:
 private:
     Ui::login *ui;
     MainWindow main ;
+    menu mn ;
 
 };
 

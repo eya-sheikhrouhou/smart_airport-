@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     login w;
+
     Connection c;
     bool test=c.createconnect();
     if(test)
