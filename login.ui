@@ -52,7 +52,7 @@ max-height: 13px;
      <string>log-in</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="id_search_info">
+   <widget class="QLineEdit" name="id">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -65,7 +65,7 @@ max-height: 13px;
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="id_search_info_2">
+   <widget class="QLineEdit" name="password">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -76,6 +76,9 @@ max-height: 13px;
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>dqsdqsfqf</string>
     </property>
     <property name="echoMode">
      <enum>QLineEdit::Password</enum>
