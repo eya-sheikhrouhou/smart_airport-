@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/new/prefix1"/>
+    <qresource prefix="/rec">
+        <file>Logo-McDonalds-1 (1).jpg</file>
+        <file>Burger-King-2021-1.jpg</file>
+        <file>coffee-cup-logo-coffee-shop (1).jpg</file>
+        <file>dunkindonuts (1).png</file>
+        <file>KFC logo.jpg</file>
+        <file>kisspng-pizza-hut-kfc-restaurant-logo-5ae545214f8366.4488258615249748813257.jpg</file>
+        <file>Symbole-Starbucks (1).jpg</file>
+    </qresource>
+</RCC>
