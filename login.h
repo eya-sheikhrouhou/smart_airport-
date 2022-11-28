@@ -2,9 +2,12 @@
 #define LOGIN_H
 
 #include <QMainWindow>
-#include "mainwindow.h"
+#include "bagages.h"
 #include "menu.h"
 
+#include"includers.h"
+
+#include"arduino.h"
 namespace Ui {
 class login;
 }
@@ -21,10 +24,13 @@ public:
 private slots:
     int on_add_info_clicked();
 
+
+
 private:
     Ui::login *ui;
     MainWindow main ;
     menu mn ;
+    Arduino A ;
 
 };
 

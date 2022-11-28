@@ -4,6 +4,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include<QDebug>
+#include"includers.h"
+
 class Connection
 {
 public:

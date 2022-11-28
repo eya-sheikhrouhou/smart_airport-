@@ -2,8 +2,7 @@
 #define MENU_H
 
 #include <QMainWindow>
-#include"mainwindow.h"
-
+#include"bagages.h"
 namespace Ui {
 class menu;
 }
@@ -17,9 +16,12 @@ public:
     ~menu();
    void hide_button() ;
 
+private slots:
+   void on_bagages_clicked();
+
 private:
     Ui::menu *ui;
-    MainWindow bagages ;
+    MainWindow bagage ;
 };
 
 #endif // MENU_H

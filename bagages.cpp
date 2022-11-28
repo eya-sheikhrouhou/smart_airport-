@@ -1,6 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "bagage.h"
+#include "ui_bagages.h"
+#include "bagages.h"
 #include"connection.h"
 #include<QtGui>
 #include<QtCore>
@@ -14,18 +13,31 @@
 #include <QPdfWriter>
 #include <QPainter>
 #include <QSqlQueryModel>
+#include <QMessageBox>
+#include"menu.h"
+#include"arduino.h"
 
-
-
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent):
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QPixmap pix("C:/Users/azizo/OneDrive/Bureau/aziz_repo/gestion_bagage/307841663_519072713563574_557044734057287878_n.png");
+    QPixmap pix("C:/Users/azizo/OneDrive/Bureau/aziz_repo/gestion_bagage/azure.png");
     ui->label_logo->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
      ui->tabWidget->setCurrentIndex(0)  ;
      ui->id_search_info->setValidator(new QIntValidator(0,1000000,this));
+
+ /*
+   int ret=A.connect_arduino(); // lancer la connexion à arduino
+     switch(ret){
+     case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+         break;
+     case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+        break;
+     case(-1):qDebug() << "arduino is not available";
+     }
+      QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
+      //le slot update_label suite à la reception du signal readyRead (reception des données).*/
 }
 MainWindow::~MainWindow()
 {
@@ -312,3 +324,12 @@ void MainWindow::on_affichetout_clicked()
 }
 
 
+
+void MainWindow::on_returnm_clicked()
+{      qDebug() <<"test   ";
+     QString data = "test to QT arduino"  ;
+
+      QByteArray b= data.toUtf8() ;
+     // qDebug() <<b   ;
+    //  A.write_to_arduino(b);
+}

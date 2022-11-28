@@ -1,7 +1,7 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+QT       += core gui  serialport
 CONFIG += c++11
 QT       += core gui sql
 QT++= sql
@@ -19,23 +19,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    bagage.cpp \
+    arduino.cpp\
     connection.cpp \
     login.cpp \
     main.cpp \
-    mainwindow.cpp \
+    bagages.cpp\
     menu.cpp
 
 HEADERS += \
-    bagage.h \
+    arduino.h \
     connection.h \
     login.h \
-    mainwindow.h \
+includers.h \
+    bagages.h \
     menu.h
 
 FORMS += \
     login.ui \
-    mainwindow.ui \
+    bagages.ui \
     menu.ui
 
 # Default rules for deployment.

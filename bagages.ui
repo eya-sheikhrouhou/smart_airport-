@@ -57,7 +57,7 @@ background: white;
 background: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 rgba(191, 122, 200, 255), stop: 1 rgba(255, 255, 255, 255));</string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="info">
      <attribute name="title">
@@ -1795,6 +1795,37 @@ max-height: 13px;
       </property>
       <property name="text">
        <string>affiche</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="returnm">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>370</y>
+        <width>62</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+color: white;
+background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #88d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);
+border-width: 1px;
+border-color: #339;
+border-style: solid;
+border-radius: 7;
+padding: 3px;
+font-size: 10px;
+padding-left: 5px;
+padding-right: 5px;
+min-width: 50px;
+max-width: 50px;
+min-height: 13px;
+max-height: 13px;
+}</string>
+      </property>
+      <property name="text">
+       <string>ARDUINO</string>
       </property>
      </widget>
     </widget>

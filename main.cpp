@@ -1,5 +1,4 @@
-#include "mainwindow.h"
-#include "bagage.h"
+#include "bagages.h"
 #include <QApplication>
 #include "connection.h"
 #include<QDebug>

@@ -18,3 +18,11 @@ void menu::hide_button() {
 
 }
 
+
+
+void menu::on_bagages_clicked()
+{
+    bagage.show();
+    this->hide();
+
+}

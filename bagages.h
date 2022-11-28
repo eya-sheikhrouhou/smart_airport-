@@ -1,24 +1,18 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include<QPixmap>
-#include<QMessageBox>
-#include<QString>
+#ifndef BAGAGES_H
+#define BAGAGES_H
 #include <QMainWindow>
-#include<QWidget>
-#include<iostream>
-#include<QDebug>
-QT_BEGIN_NAMESPACE
+//#include"includers.h"
+#include"arduino.h"
+namespace Ui {
+class MainWindow;
+}
 
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
-
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 
@@ -33,11 +27,15 @@ private slots:
     void on_supp_clicked();
     void on_pdf_clicked();
     void on_tri_clicked();
-
     void on_affichetout_clicked();
-
+    void on_returnm_clicked();
 
 private:
     Ui::MainWindow *ui;
+
+    QByteArray data; // variable contenant les données reçues
+
+  //  Arduino A; // objet temporaire
+
 };
-#endif // MAINWINDOW_H
+#endif // BAGAGES_H
