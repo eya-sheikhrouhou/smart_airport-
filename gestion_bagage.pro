@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui  charts network multimedia multimediawidgets charts printsupport widgets axcontainer serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QT       += core gui  serialport
@@ -21,20 +21,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     arduino.cpp\
     connection.cpp \
+    exportexcelobject.cpp \
+    gestion_voyageur.cpp \
     login.cpp \
     main.cpp \
     bagages.cpp\
-    menu.cpp
+    menu.cpp \
+    voyageur.cpp
 
 HEADERS += \
     arduino.h \
     connection.h \
+    exportexcelobject.h \
+    gestion_voyageur.h \
     login.h \
 includers.h \
     bagages.h \
-    menu.h
+    menu.h \
+    voyageur.h
 
 FORMS += \
+    gestion_voyageur.ui \
     login.ui \
     bagages.ui \
     menu.ui
@@ -43,3 +50,7 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    images.qrc
+

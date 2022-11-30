@@ -4,17 +4,21 @@
 #include<QDebug>
 #include <QMessageBox>
 #include "login.h"
+#include"menu.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+      Connection c;
     login w;
 
-    Connection c;
+
+
+    //gestion_voyageur v;
     bool test=c.createconnect();
     if(test)
     {w.show();
-        QMessageBox::critical(nullptr, QObject::tr("database is open"),
+        QMessageBox::information(nullptr, QObject::tr("database is open"),
                     QObject::tr("connection successful.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
 

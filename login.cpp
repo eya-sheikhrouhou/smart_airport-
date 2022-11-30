@@ -33,6 +33,7 @@ int login::on_add_info_clicked()
     QString id = ui->id->text() ;
     QString data ;
       QByteArray b ;
+      /*
     if  (id.length()<7 and (id.mid(0,3)!="DIR" or  id.mid(0,3)!="EMP" ) )
     {
 
@@ -45,7 +46,7 @@ int login::on_add_info_clicked()
     } else {
        QSqlQuery qry;
        QString pass = ui->password->text() ;
-       qry.prepare("select password from employes where password = :pass and id_emp= :id ") ;
+       qry.prepare("select password from employee where password = :pass and id_emp= :id ") ;
        qry.bindValue(":id",id);
        qry.bindValue(":pass",pass);
        qry.exec() ;
@@ -56,7 +57,7 @@ int login::on_add_info_clicked()
 
 
               data="welcome " ;
-              qry.prepare("select nom from employes where id_emp= :id ") ;
+              qry.prepare("select nom from employee where id_emp= :id ") ;
               qry.bindValue(":id",id);
               qry.exec() ;
               qry.next() ;
@@ -85,7 +86,11 @@ int login::on_add_info_clicked()
 
        }
 
-    }
+    }*/
+      mn.hide_button() ;
+      mn.show() ;
+
+      this->hide() ;
 
 return 0 ;
 

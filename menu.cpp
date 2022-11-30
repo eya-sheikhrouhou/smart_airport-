@@ -26,3 +26,9 @@ void menu::on_bagages_clicked()
     this->hide();
 
 }
+
+void menu::on_voyageurs_clicked()
+{
+   v.show();
+    this->hide();
+}
