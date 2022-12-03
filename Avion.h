@@ -1,6 +1,22 @@
 #ifndef AVION_H
 #define AVION_H
 
+#include "smtp.h"
+#include "arduino.h"
+#include <QMainWindow>
+#include <QDialog>
+#include <QPixmap>
+#include <QString>
+#include <QMessageBox>
+#include <QDialog>
+#include <QFileDialog>
+#include <QDialog>
+#include <QDesktopWidget>
+#include <QSqlQuery>
+#include <QSqlQueryModel>
+#include <QtCharts>
+
+
 #include <QMainWindow>
 #include <QPixmap>
 #include <QString>
@@ -27,6 +43,8 @@ public:
     bool ajouter();
     bool modifier();
     bool supprimer(int);
+
+    QString tester();
 
     QSqlQueryModel* tri();
     QSqlQueryModel* tri1();

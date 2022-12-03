@@ -1,5 +1,5 @@
 #include "Avion.h"
-#include "ui_avions.h"
+//#include "ui_avions.h"
 #include <QMainWindow>
 #include <QPixmap>
 #include <QString>
@@ -136,10 +136,16 @@ return model;
 
  }
 
+QString Avion::tester()
+{
+    QSqlQuery query;
+
+    query.prepare("Select AIRLINE from AVIONS");
+    query.exec() ;
+    query.next() ;
+    return  query.value(0).toString();
 
 
-
-
-
+}
 
 

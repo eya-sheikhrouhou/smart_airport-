@@ -5,13 +5,13 @@
 #include "smtp.h"
 #include "arduino.h"
 #include <QMainWindow>
+
 #include <QDialog>
 #include <QPixmap>
 #include <QString>
 #include <QMessageBox>
 #include <QDialog>
 #include <QFileDialog>
-#include <QDialog>
 #include <QDesktopWidget>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
@@ -31,18 +31,22 @@
 #include <QThread>
 
 
-
-
 QT_BEGIN_NAMESPACE
-namespace Ui { class avions; }
+namespace Ui {
+
+   class avions;
+
+             } //namespace end
 QT_END_NAMESPACE
 
-class avions : public QMainWindow
+
+
+class avions : public QDialog
 {
     Q_OBJECT
 
 public:
-    avions(QWidget *parent = nullptr);
+    avions(QDialog *parent = nullptr);
 
     ~avions();
 
@@ -66,6 +70,10 @@ private slots:
     // ce slot est lancé à chaque réception d'un message de Arduino
 
 
+    void on_verif_clicked();
+
+    void on_tester_clicked();
+
 private:
     Ui::avions *ui;
     Avion A;
@@ -74,6 +82,11 @@ private:
     QByteArray data; // variable contenant les données reçues
     Arduino Ar; // objet temporaire
 
+    using QDialog::QDialog;
+
 
 };
+
+
+
 #endif // AVIONS_H

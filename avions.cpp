@@ -1,6 +1,7 @@
 #include "avions.h"
 #include "ui_avions.h"
 #include "Avion.h"
+#include"connection.h"
 #include <QMainWindow>
 #include <QPixmap>
 #include <QString>
@@ -20,18 +21,20 @@
 #include <QUrl>
 
 
-avions::avions(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::avions)
+avions::avions(QDialog *parent)
+    : QDialog(parent)
+    ,
+
+    ui(new Ui::avions)
 {
     ui->setupUi(this);
     ui->tab_avions->setModel(A.afficher());
 
-    QPixmap pix("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/ProjetCpp/Entite_Avions/Azure.png");
+    QPixmap pix("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/smart_airport--integ_eya_aziz");
     ui->label_pic->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
-    QPixmap pix1("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/ProjetCpp/Entite_Avions/Azure.png");
+    QPixmap pix1("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/smart_airport--integ_eya_aziz");
     ui->label_pic1->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
-    QPixmap pix2("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/ProjetCpp/Entite_Avions/Azure.png");
+    QPixmap pix2("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/smart_airport--integ_eya_aziz");
     ui->label_pic2->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
 
     //for email tab
@@ -39,7 +42,7 @@ avions::avions(QWidget *parent)
     connect(ui->browseBtn, SIGNAL(clicked()), this, SLOT(browse()));
 
     //Arduino
-    int ret=Ar.connect_arduino(); // lancer la connexion à arduino
+    int ret=Ar.connect_arduino();        // lancer la connexion à arduino
        switch(ret){
        case(0):qDebug()<< "arduino is available and connected to : "<< Ar.getarduino_port_name();
            break;
@@ -126,6 +129,7 @@ void avions::on_pb_ajouter_clicked()
     if(test)
     {
        ui->tab_avions->setModel(A.afficher());
+       Ar.write_to_arduino(("2"));
         QMessageBox::information(nullptr, QObject::tr("OK"),
                     QObject::tr("Ajout effectué.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
@@ -141,7 +145,8 @@ void avions::on_pb_ajouter_clicked()
 }
 
 void avions::on_pb_modifier_clicked()
-{
+{   avions av ;
+
     QString id=ui->lineEdit_Id->text();
     QString airline=ui->lineEdit_Airline->text();
     QString date=ui->dateEdit->date().toString("dd-MM-yyyy");
@@ -154,6 +159,7 @@ void avions::on_pb_modifier_clicked()
     if(test)
     {
        ui->tab_avions->setModel(A.afficher());
+       Ar.write_to_arduino(("3"));
         QMessageBox::information(nullptr, QObject::tr("OK"),
                     QObject::tr("Modification effectuée.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
@@ -177,6 +183,7 @@ void avions::on_pb_supprimer_clicked()
     if(test)
     {
         ui->tab_avions->setModel(A.afficher());
+        Ar.write_to_arduino(("4"));
         QMessageBox::information(nullptr, QObject::tr("OK"),
                     QObject::tr("Suppression effectué.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
@@ -250,12 +257,17 @@ void avions::on_pb_chercher_clicked()
     QString aux=ui->lineEdit_supprimer->text();
 
     ui->tab_avions->setModel(A.rechercher(aux));
+    Ar.write_to_arduino(("5"));
 }
 
 void avions::on_pb_trier_clicked()
 {
   QString choix=ui->comboBox->currentText();
-  if (choix == "Id") ui->tab_avions->setModel(A.tri());
+  if (choix == "Id")
+  {
+      ui->tab_avions->setModel(A.tri());
+      Ar.write_to_arduino(("6"));
+  }
   else ui->tab_avions->setModel(A.tri1());
 
 }
@@ -302,3 +314,31 @@ void  avions::browse()
     ui->file->setText( fileListString );
 
 }
+
+void avions::on_verif_clicked()
+{
+    int nbr= ui->nbr_perso->text().toInt();
+
+       if(nbr > 20)
+        {
+             Ar.write_to_arduino(("1"));
+        }
+       else if(nbr <= 20)
+        {
+             Ar.write_to_arduino(("0"));
+         }
+
+}
+
+void avions::on_tester_clicked()
+{
+    QString aux1=A.tester();
+
+    QString str(aux1);
+    QByteArray br = str.toUtf8();
+
+    Ar.write_to_arduino(br);
+
+
+}
+
