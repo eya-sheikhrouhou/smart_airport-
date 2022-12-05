@@ -14,7 +14,7 @@ menu::~menu()
 }
 
 void menu::hide_button() {
-    ui->employer->hide() ;
+    //ui->employes->hide() ;
 
 }
 
@@ -37,4 +37,10 @@ void menu::on_avion_clicked()
 {
      a.show();
      this->hide();
+}
+
+void menu::on_employes_clicked()
+{
+    E.show();
+    this->hide();
 }

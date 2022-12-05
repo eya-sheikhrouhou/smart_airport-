@@ -37,7 +37,7 @@ gestion_voyageur::gestion_voyageur(QDialog *parent)
     ui->setupUi(this);
     ui->table_voyageur->setModel(Etmp.afficher()); //affichage
 
-    QPixmap pix("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/smart_airport--integ_eya_aziz");
+    QPixmap pix("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/integ/smart_airport-");
     ui->label_logo->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
     ui->lineEdit_cin->setValidator(new QIntValidator(0,99999999,this));
 

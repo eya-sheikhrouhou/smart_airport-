@@ -23,8 +23,10 @@ SOURCES += \
     arduino.cpp\
     avions.cpp \
     connection.cpp \
+    employes.cpp \
     exportexcelobject.cpp \
     gestion_voyageur.cpp \
+    gestionemployes.cpp \
     login.cpp \
     main.cpp \
     bagages.cpp\
@@ -37,8 +39,10 @@ HEADERS += \
     arduino.h \
     avions.h \
     connection.h \
+    employes.h \
     exportexcelobject.h \
     gestion_voyageur.h \
+    gestionemployes.h \
     login.h \
 includers.h \
     bagages.h \
@@ -49,6 +53,7 @@ includers.h \
 FORMS += \
     avions.ui \
     gestion_voyageur.ui \
+    gestionemployes.ui \
     login.ui \
     bagages.ui \
     menu.ui

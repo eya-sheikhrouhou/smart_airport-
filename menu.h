@@ -5,6 +5,7 @@
 #include"bagages.h"
 #include"gestion_voyageur.h"
 #include"avions.h"
+#include"gestionemployes.h"
 
 namespace Ui {
 class menu;
@@ -26,11 +27,15 @@ private slots:
 
    void on_avion_clicked();
 
+   void on_employes_clicked();
+
 private:
     Ui::menu *ui;
     MainWindow bagage ;
     gestion_voyageur v;
     avions a;
+    gestionEmployes E;
+
 
 };
 

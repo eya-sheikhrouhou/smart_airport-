@@ -30,11 +30,11 @@ avions::avions(QDialog *parent)
     ui->setupUi(this);
     ui->tab_avions->setModel(A.afficher());
 
-    QPixmap pix("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/smart_airport--integ_eya_aziz");
+    QPixmap pix("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/integ/smart_airport-");
     ui->label_pic->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
-    QPixmap pix1("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/smart_airport--integ_eya_aziz");
+    QPixmap pix1("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/integ/smart_airport-");
     ui->label_pic1->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
-    QPixmap pix2("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/smart_airport--integ_eya_aziz");
+    QPixmap pix2("C:/Users/Zoghlami Dhirar/OneDrive/Bureau/integ/smart_airport-");
     ui->label_pic2->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
 
     //for email tab
