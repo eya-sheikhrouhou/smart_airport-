@@ -44,3 +44,9 @@ void menu::on_employes_clicked()
     E.show();
     this->hide();
 }
+
+void menu::on_vols_clicked()
+{
+    v1.show();
+    this->hide();
+}

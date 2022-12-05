@@ -7,4 +7,6 @@
 #include"voyageur.h"
 #include"Avion.h"
 #include"employes.h"
+#include"vol.h"
+
 #endif // INCLUDERS_H

@@ -6,6 +6,8 @@
 #include"gestion_voyageur.h"
 #include"avions.h"
 #include"gestionemployes.h"
+#include"gestion_vol.h"
+
 
 namespace Ui {
 class menu;
@@ -29,12 +31,15 @@ private slots:
 
    void on_employes_clicked();
 
+   void on_vols_clicked();
+
 private:
     Ui::menu *ui;
     MainWindow bagage ;
     gestion_voyageur v;
     avions a;
     gestionEmployes E;
+    gestion_vol v1;
 
 
 };

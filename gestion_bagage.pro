@@ -25,6 +25,7 @@ SOURCES += \
     connection.cpp \
     employes.cpp \
     exportexcelobject.cpp \
+    gestion_vol.cpp \
     gestion_voyageur.cpp \
     gestionemployes.cpp \
     login.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
     bagages.cpp\
     menu.cpp \
     smtp.cpp \
+    vol.cpp \
     voyageur.cpp
 
 HEADERS += \
@@ -41,6 +43,7 @@ HEADERS += \
     connection.h \
     employes.h \
     exportexcelobject.h \
+    gestion_vol.h \
     gestion_voyageur.h \
     gestionemployes.h \
     login.h \
@@ -48,10 +51,12 @@ includers.h \
     bagages.h \
     menu.h \
     smtp.h \
+    vol.h \
     voyageur.h
 
 FORMS += \
     avions.ui \
+    gestion_vol.ui \
     gestion_voyageur.ui \
     gestionemployes.ui \
     login.ui \
